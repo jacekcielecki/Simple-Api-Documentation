@@ -6,10 +6,13 @@ namespace SimpleApiDocumentation.Core;
 internal class ApiDocsMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly IApiDocsProvider _apiDocsProvider;
 
-    public ApiDocsMiddleware(RequestDelegate next)
+    public ApiDocsMiddleware(RequestDelegate next,
+        IApiDocsProvider apiDocsProvider)
     {
         _next = next;
+        _apiDocsProvider = apiDocsProvider;
     }
 
     public async Task Invoke(HttpContext httpContext)
@@ -27,7 +30,8 @@ internal class ApiDocsMiddleware
     {
         response.StatusCode = 200;
         response.ContentType = "text/html;charset=utf-8";
-        var html = "<html><head><title>API Documentation</title></head><body><h1>API Documentation</h1></body></html>";
+
+        var html = _apiDocsProvider.GenerateDocument();
 
         await response.WriteAsync(html, Encoding.UTF8);
     }

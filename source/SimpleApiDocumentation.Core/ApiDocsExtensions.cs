@@ -10,6 +10,6 @@ public static class ApiDocsExtensions
     public static IApplicationBuilder UseApiDocs(this IApplicationBuilder app)
     {
         ArgumentNullException.ThrowIfNull(app);
-        return app;
+        return app.UseMiddleware<ApiDocsMiddleware>();
     }
 }

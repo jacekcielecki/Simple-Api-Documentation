@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SimpleApiDocumentation.Core;
 
-public class ApiDocsMiddleware
+internal class ApiDocsMiddleware
 {
     private readonly RequestDelegate _next;
 

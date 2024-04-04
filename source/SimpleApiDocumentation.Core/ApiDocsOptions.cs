@@ -1,7 +1,6 @@
-﻿namespace SimpleApiDocumentation.Core
+﻿namespace SimpleApiDocumentation.Core;
+
+internal static class ApiDocsOptions
 {
-    internal static class ApiDocsOptions
-    {
-        public static string Url { get; set; } = "Api/docs";
-    }
+    public static string Url { get; set; } = "Api/docs";
 }

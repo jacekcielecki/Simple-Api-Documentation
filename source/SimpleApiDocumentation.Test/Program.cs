@@ -3,6 +3,8 @@ using SimpleApiDocumentation.Core;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers(); // For MVC controllers api documentation testing
+builder.Services.AddApiDocs();
 
 var app = builder.Build();
 

@@ -1,4 +1,3 @@
-﻿namespace SimpleApiDocumentation.Core
-{
-    internal class AssemblyReference{}
-}
+﻿namespace SimpleApiDocumentation.Core;
+
+internal class AssemblyReference{}

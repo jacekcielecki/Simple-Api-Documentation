@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using SimpleApiDocumentation.Core.Mapping;
 
 namespace SimpleApiDocumentation.Core;
 
@@ -24,7 +25,11 @@ internal class ApiDocsProvider : IApiDocsProvider
         EndpointModel[] endpoints = [..MinimalApiEndpoints(), ..ControllerEndpoints()];
 
         var content = 
-            endpoints.Aggregate("", (current, endpoint) => current + $"<li> Endpoint: {endpoint.Name} {endpoint.Method} </li>");
+            endpoints.Aggregate("", (current, endpoint) => current +
+            $"<li class=\"{endpoint.Method?.ToLower()}\"> " +
+            $"<div class=\"method\">{endpoint.Method}</div>" +
+            $"{endpoint.Name}" +
+            "</li>");
 
         var html = HtmlTemplate().Replace("{{content}}", content);
         return html;
@@ -44,11 +49,7 @@ internal class ApiDocsProvider : IApiDocsProvider
     {
         return _serviceProvider.GetServices<EndpointDataSource>()
             .SelectMany(x => x.Endpoints)
-            .Select(x => new EndpointModel
-            {
-                Method = x.Metadata.GetMetadata<HttpMethodMetadata>()?.HttpMethods.FirstOrDefault(),
-                Name = x.DisplayName
-            })
+            .Select(x => x.ToEndpointModel())
             .ToArray();
     }
 
@@ -62,12 +63,8 @@ internal class ApiDocsProvider : IApiDocsProvider
         }
 
         return mvcActionDescriptor.ActionDescriptors.Items
-            .Where(ad => ad.AttributeRouteInfo != null)
-            .Select(ad => new EndpointModel
-            {
-                Method = ad.EndpointMetadata[6].ToString(),
-                Name = ad.AttributeRouteInfo.Template
-            })
+            .Where(x => x.AttributeRouteInfo != null)
+            .Select(x => x.ToEndpointModel())
             .ToArray();
     }
 }

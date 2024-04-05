@@ -61,9 +61,6 @@ internal class ApiDocsProvider : IApiDocsProvider
             return [];
         }
 
-        var tst = mvcActionDescriptor.ActionDescriptors.Items
-            .FirstOrDefault(ad => ad.AttributeRouteInfo != null);
-
         return mvcActionDescriptor.ActionDescriptors.Items
             .Where(ad => ad.AttributeRouteInfo != null)
             .Select(ad => new EndpointModel

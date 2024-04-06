@@ -1,6 +1,9 @@
 ﻿namespace SimpleApiDocumentation.Core;
 
-internal static class ApiDocsOptions
+public class ApiDocsOptions
 {
-    public static string Url { get; set; } = "Api/docs";
+    /// <summary>
+    /// Gets or sets a route for accessing the Simple Api Docs
+    /// </summary>
+    public string Url { get; set; } = "Api/docs";
 }

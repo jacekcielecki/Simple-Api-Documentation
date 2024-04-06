@@ -9,10 +9,15 @@ public static class ApiDocsExtensions
     /// <summary>
     /// Register the ApiDocs middleware.
     /// </summary>
-    public static IApplicationBuilder UseApiDocs(this IApplicationBuilder app)
+    public static IApplicationBuilder UseApiDocs(this IApplicationBuilder app, Action<ApiDocsOptions>? setupAction = null)
     {
         ArgumentNullException.ThrowIfNull(app);
-        return app.UseMiddleware<ApiDocsMiddleware>();
+
+        ApiDocsOptions options = new();
+        setupAction?.Invoke(options);
+        app.ApplicationServices.GetService<IServiceCollection>()?.AddSingleton(options);
+
+        return app.UseMiddleware<ApiDocsMiddleware>(options);
     }
 
     /// <summary>

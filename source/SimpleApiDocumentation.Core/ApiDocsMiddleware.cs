@@ -6,12 +6,16 @@ namespace SimpleApiDocumentation.Core;
 internal class ApiDocsMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ApiDocsOptions _options;
     private readonly IApiDocsProvider _apiDocsProvider;
 
-    public ApiDocsMiddleware(RequestDelegate next,
+    public ApiDocsMiddleware(
+        RequestDelegate next,
+        ApiDocsOptions? options,
         IApiDocsProvider apiDocsProvider)
     {
         _next = next;
+        _options = options ?? new ApiDocsOptions();
         _apiDocsProvider = apiDocsProvider;
     }
 
@@ -36,11 +40,11 @@ internal class ApiDocsMiddleware
         await response.WriteAsync(html, Encoding.UTF8);
     }
 
-    private static bool RequestingApiDocs(HttpRequest request)
+    private bool RequestingApiDocs(HttpRequest request)
     {
         var httpMethod = request.Method;
 
         return httpMethod == "GET" && 
-               request.Path.Value.EndsWith(ApiDocsOptions.Url, StringComparison.InvariantCultureIgnoreCase);
+               request.Path.Value.EndsWith(_options.Url, StringComparison.InvariantCultureIgnoreCase);
     }
 }

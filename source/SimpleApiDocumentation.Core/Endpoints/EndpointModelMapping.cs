@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Routing;
 
-namespace SimpleApiDocumentation.Core.Mapping;
+namespace SimpleApiDocumentation.Core.Endpoints;
 
 internal static class EndpointModelMapping
 {

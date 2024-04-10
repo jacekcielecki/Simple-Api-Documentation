@@ -1,30 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleApiDocumentation.Core.Endpoints;
 using System.Reflection;
-using SimpleApiDocumentation.Core.Mapping;
 
-namespace SimpleApiDocumentation.Core;
+namespace SimpleApiDocumentation.Core.Document;
 
-internal interface IApiDocsProvider
+internal interface IDocumentProvider
 {
     string GenerateDocument();
 }
 
-internal class ApiDocsProvider : IApiDocsProvider
+internal class DocumentProvider : IDocumentProvider
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public ApiDocsProvider(IServiceProvider serviceProvider)
+    public DocumentProvider(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
     public string GenerateDocument()
     {
-        EndpointModel[] endpoints = [..MinimalApiEndpoints(), ..ControllerEndpoints()];
+        EndpointModel[] endpoints = [.. MinimalApiEndpoints(), .. ControllerEndpoints()];
 
-        var content = 
+        var content =
             endpoints.Aggregate("", (current, endpoint) => current +
             $"<li class=\"{endpoint.Method?.ToLower()}\"> " +
             $"<div class=\"method\">{endpoint.Method}</div>" +

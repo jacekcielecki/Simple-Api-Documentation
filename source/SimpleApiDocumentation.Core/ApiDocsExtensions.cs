@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SimpleApiDocumentation.Core.Document;
 
 namespace SimpleApiDocumentation.Core;
 
@@ -25,7 +26,7 @@ public static class ApiDocsExtensions
     /// </summary>
     public static IServiceCollection AddApiDocs(this IServiceCollection services)
     {
-        services.TryAddTransient<IApiDocsProvider, ApiDocsProvider>();
+        services.TryAddTransient<IDocumentProvider, DocumentProvider>();
         return services;
     }
 }

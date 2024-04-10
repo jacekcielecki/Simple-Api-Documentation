@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SimpleApiDocumentation.Core.Document;
 using System.Text;
 
 namespace SimpleApiDocumentation.Core;
@@ -7,16 +8,16 @@ internal class ApiDocsMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ApiDocsOptions _options;
-    private readonly IApiDocsProvider _apiDocsProvider;
+    private readonly IDocumentProvider _documentProvider;
 
     public ApiDocsMiddleware(
         RequestDelegate next,
         ApiDocsOptions? options,
-        IApiDocsProvider apiDocsProvider)
+        IDocumentProvider documentProvider)
     {
         _next = next;
         _options = options ?? new ApiDocsOptions();
-        _apiDocsProvider = apiDocsProvider;
+        _documentProvider = documentProvider;
     }
 
     public async Task Invoke(HttpContext httpContext)
@@ -35,16 +36,14 @@ internal class ApiDocsMiddleware
         response.StatusCode = 200;
         response.ContentType = "text/html;charset=utf-8";
 
-        var html = _apiDocsProvider.GenerateDocument();
+        var html = _documentProvider.GenerateDocument();
 
         await response.WriteAsync(html, Encoding.UTF8);
     }
 
     private bool RequestingApiDocs(HttpRequest request)
     {
-        var httpMethod = request.Method;
-
-        return httpMethod == "GET" && 
+        return request.Method == "GET" && 
                request.Path.Value.EndsWith(_options.Url, StringComparison.InvariantCultureIgnoreCase);
     }
 }

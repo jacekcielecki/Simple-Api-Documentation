@@ -12,14 +12,10 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-
 app.MapGet("api/user", () => "test");
 app.MapDelete("api/user/{id}", (int id) => "test");
 app.MapPost("api/user", (string user) => "test");
 app.MapPut("api/user/{id}", () => "test");
 
-app.UseApiDocs(options =>
-{
-    options.Url = "api/documents";
-});
+app.UseApiDocs();
 app.Run();

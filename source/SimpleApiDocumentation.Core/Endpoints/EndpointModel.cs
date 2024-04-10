@@ -1,4 +1,4 @@
-﻿namespace SimpleApiDocumentation.Core;
+﻿namespace SimpleApiDocumentation.Core.Endpoints;
 
 internal class EndpointModel
 {

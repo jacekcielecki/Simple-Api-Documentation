@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleApiDocumentation.Core.Endpoints;
 using System.Reflection;
+using System.Text.Json;
 
 namespace SimpleApiDocumentation.Core.Document;
 
@@ -23,15 +24,8 @@ internal class DocumentProvider : IDocumentProvider
     public string GenerateDocument()
     {
         EndpointModel[] endpoints = [.. MinimalApiEndpoints(), .. ControllerEndpoints()];
-
-        var content =
-            endpoints.Aggregate("", (current, endpoint) => current +
-            $"<li class=\"{endpoint.Method?.ToLower()}\"> " +
-            $"<div class=\"method\">{endpoint.Method}</div>" +
-            $"{endpoint.Name}" +
-            "</li>");
-
-        var html = HtmlTemplate().Replace("{{content}}", content);
+        
+        var html = HtmlTemplate().Replace("%(EndpointsList)", JsonSerializer.Serialize(endpoints));
         return html;
     }
 

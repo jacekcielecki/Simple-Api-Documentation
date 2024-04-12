@@ -6,16 +6,16 @@ using SimpleApiDocumentation.Core.Document;
 
 namespace SimpleApiDocumentation.Core;
 
-public static class ApiDocsExtensions
+public static class SimpleApiDocsExtensions
 {
     /// <summary>
     /// Register the ApiDocs middleware.
     /// </summary>
-    public static IApplicationBuilder UseApiDocs(this IApplicationBuilder app, Action<ApiDocsOptions>? setupAction = null)
+    public static IApplicationBuilder UseApiDocs(this IApplicationBuilder app, Action<SimpleApiDocsOptions>? setupAction = null)
     {
         ArgumentNullException.ThrowIfNull(app);
 
-        ApiDocsOptions options = new();
+        SimpleApiDocsOptions options = new();
         setupAction?.Invoke(options);
 
         var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
@@ -25,7 +25,7 @@ public static class ApiDocsExtensions
         services?.AddSingleton(options);
         services?.TryAddTransient<IDocumentProvider, DocumentProvider>();
 
-        return app.UseMiddleware<ApiDocsMiddleware>(options);
+        return app.UseMiddleware<SimpleApiDocsMiddleware>(options);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class ApiDocsExtensions
     /// </summary>
     public static IServiceCollection AddApiDocs(this IServiceCollection services)
     {
-        services.TryAddSingleton<ApiDocsOptions>();
+        services.TryAddSingleton<SimpleApiDocsOptions>();
         services.TryAddTransient<IDocumentProvider, DocumentProvider>();
         return services;
     }

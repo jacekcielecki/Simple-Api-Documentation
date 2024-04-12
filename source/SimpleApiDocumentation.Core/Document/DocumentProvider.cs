@@ -14,10 +14,10 @@ internal interface IDocumentProvider
 
 internal class DocumentProvider : IDocumentProvider
 {
-    private readonly ApiDocsOptions _options;
+    private readonly SimpleApiDocsOptions _options;
     private readonly IServiceProvider _serviceProvider;
 
-    public DocumentProvider(ApiDocsOptions options, IServiceProvider serviceProvider)
+    public DocumentProvider(SimpleApiDocsOptions options, IServiceProvider serviceProvider)
     {
         _options = options;
         _serviceProvider = serviceProvider;

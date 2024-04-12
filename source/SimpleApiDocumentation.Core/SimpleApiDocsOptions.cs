@@ -1,6 +1,6 @@
 ﻿namespace SimpleApiDocumentation.Core;
 
-public class ApiDocsOptions
+public class SimpleApiDocsOptions
 {
     /// <summary>
     /// Gets or sets a route prefix for accessing the document page

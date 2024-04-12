@@ -4,19 +4,19 @@ using System.Text;
 
 namespace SimpleApiDocumentation.Core;
 
-internal class ApiDocsMiddleware
+internal class SimpleApiDocsMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ApiDocsOptions _options;
+    private readonly SimpleApiDocsOptions _options;
     private readonly IDocumentProvider _documentProvider;
 
-    public ApiDocsMiddleware(
+    public SimpleApiDocsMiddleware(
         RequestDelegate next,
-        ApiDocsOptions? options,
+        SimpleApiDocsOptions? options,
         IDocumentProvider documentProvider)
     {
         _next = next;
-        _options = options ?? new ApiDocsOptions();
+        _options = options ?? new SimpleApiDocsOptions();
         _documentProvider = documentProvider;
     }
 

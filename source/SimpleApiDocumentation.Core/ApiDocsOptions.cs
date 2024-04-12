@@ -3,7 +3,12 @@
 public class ApiDocsOptions
 {
     /// <summary>
-    /// Gets or sets a route for accessing the Simple Api Docs
+    /// Gets or sets a route prefix for accessing the document page
     /// </summary>
-    public string Url { get; set; } = "Api/docs";
+    public string RoutePrefix { get; set; } = "api/documentation";
+
+    /// <summary>
+    /// Gets or sets a title for the document page
+    /// </summary>
+    public string DocumentTitle { get; set; } = "Simple Api Docs";
 }

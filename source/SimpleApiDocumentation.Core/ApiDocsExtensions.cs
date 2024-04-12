@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SimpleApiDocumentation.Core.Document;
@@ -16,7 +17,13 @@ public static class ApiDocsExtensions
 
         ApiDocsOptions options = new();
         setupAction?.Invoke(options);
-        app.ApplicationServices.GetService<IServiceCollection>()?.AddSingleton(options);
+
+        var hostingEnvironment = app.ApplicationServices.GetRequiredService<IHostingEnvironment>();
+        var services = app.ApplicationServices.GetService<IServiceCollection>();
+        
+        options.DocumentTitle = hostingEnvironment.ApplicationName;
+        services?.AddSingleton(options);
+        services?.TryAddTransient<IDocumentProvider, DocumentProvider>();
 
         return app.UseMiddleware<ApiDocsMiddleware>(options);
     }
@@ -26,6 +33,7 @@ public static class ApiDocsExtensions
     /// </summary>
     public static IServiceCollection AddApiDocs(this IServiceCollection services)
     {
+        services.TryAddSingleton<ApiDocsOptions>();
         services.TryAddTransient<IDocumentProvider, DocumentProvider>();
         return services;
     }

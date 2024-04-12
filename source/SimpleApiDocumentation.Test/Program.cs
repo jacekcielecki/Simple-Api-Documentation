@@ -17,5 +17,11 @@ app.MapDelete("api/user/{id}", (int id) => "test");
 app.MapPost("api/user", (string user) => "test");
 app.MapPut("api/user/{id}", () => "test");
 
-app.UseApiDocs();
+app.UseApiDocs(
+    x =>
+    {
+        x.RoutePrefix = "api/docs";
+    });
+
+
 app.Run();

@@ -14,22 +14,28 @@ internal interface IDocumentProvider
 
 internal class DocumentProvider : IDocumentProvider
 {
+    private readonly ApiDocsOptions _options;
     private readonly IServiceProvider _serviceProvider;
 
-    public DocumentProvider(IServiceProvider serviceProvider)
+    public DocumentProvider(ApiDocsOptions options, IServiceProvider serviceProvider)
     {
+        _options = options;
         _serviceProvider = serviceProvider;
     }
 
     public string GenerateDocument()
     {
-        EndpointModel[] endpoints = [.. MinimalApiEndpoints(), .. ControllerEndpoints()];
-        
-        var html = HtmlTemplate().Replace("%(EndpointsList)", JsonSerializer.Serialize(endpoints));
-        return html;
+        EndpointModel[] endpoints = [..MinimalApiEndpoints(), ..ControllerEndpoints()];
+
+        var document = DocumentHtmlTemplate();
+
+        document = document.Replace("%(EndpointsList)%", JsonSerializer.Serialize(endpoints));
+        document = document.Replace("%(DocumentTitle)%", _options.DocumentTitle);
+            
+        return document;
     }
 
-    private string HtmlTemplate()
+    private string DocumentHtmlTemplate()
     {
         var assembly = typeof(AssemblyReference).GetTypeInfo().Assembly;
 

@@ -44,6 +44,6 @@ internal class ApiDocsMiddleware
     private bool RequestingApiDocs(HttpRequest request)
     {
         return request.Method == "GET" && 
-               request.Path.Value.EndsWith(_options.Url, StringComparison.InvariantCultureIgnoreCase);
+               request.Path.Value.EndsWith(_options.RoutePrefix, StringComparison.InvariantCultureIgnoreCase);
     }
 }
